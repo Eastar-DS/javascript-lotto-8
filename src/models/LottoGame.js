@@ -15,6 +15,18 @@ class LottoGame {
   getWinningCountObject() {}
 
   getProfitRatio() {}
+
+  getLottos() {
+    return this.#lottos;
+  }
+
+  getWinningLotto() {
+    return this.#winningLotto;
+  }
+
+  getBonusNumber() {
+    return this.#bonusNumber;
+  }
 }
 
 export default LottoGame;

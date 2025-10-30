@@ -1,12 +1,12 @@
 class LottoGame {
   #lottos;
-  #winningNumbers;
+  #winningLotto;
   #bonusNumber;
 
-  constructor(lottosArray, sixNumbers, bonusNumber) {
+  constructor(lottosArray, winningLotto, bonusNumber) {
     this.#validate();
     this.#lottos = lottosArray;
-    this.#winningNumbers = sixNumbers;
+    this.#winningLotto = winningLotto;
     this.#bonusNumber = bonusNumber;
   }
 

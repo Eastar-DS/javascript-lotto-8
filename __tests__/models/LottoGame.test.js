@@ -24,7 +24,7 @@ describe('LottoGame 모델 테스트', () => {
       expect(() => new LottoGame(validLottosArray, winningLotto, bonusNumber)).toThrow('[ERROR]');
     });
 
-    test('bonusNumber가 숫자가 아니면 에러 발생', () => {
+    test('bonusNumber가 숫자타입의 정수가 아니면 에러 발생', () => {
       // given
       const bonusNumber = '1';
 
@@ -176,7 +176,7 @@ describe('LottoGame 모델 테스트', () => {
       const game = new LottoGame(lottos, winningLotto, bonusNumber);
 
       // then
-      expect(game.getProfitRatio()).toBe(62.5);
+      expect(game.getProfitRatio()).toBe('62.5');
     });
   });
 });

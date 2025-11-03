@@ -7,7 +7,10 @@ describe('OutputView 모델 테스트', () => {
 
   beforeEach(() => {
     printSpy = jest.spyOn(Console, 'print');
-    printSpy.mockClear();
+  });
+
+  afterEach(() => {
+    printSpy.mockRestore();
   });
 
   describe('printPurchaseCount() 메소드로 구매한 로또 개수 출력', () => {
@@ -116,10 +119,10 @@ describe('OutputView 모델 테스트', () => {
   describe('printProfitRatio() 메소드 테스트', () => {
     test('수익률을 퍼센트로 출력한다', () => {
       // given
-      const profitRate = 62.5;
+      const profitRate = '62.5';
 
       // when
-      OutputView.printProfitRate(profitRate);
+      OutputView.printProfitRatio(profitRate);
 
       // then
       expect(printSpy).toHaveBeenCalledWith('총 수익률은 62.5%입니다.');

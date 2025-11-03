@@ -1,3 +1,6 @@
+import { ERROR_MESSAGES } from '../constants/errorMessages';
+import { LOTTO_CONFIG, RANK, MATCH_COUNT } from '../constants/lottoConfig';
+
 class Lotto {
   #numbers;
 
@@ -7,38 +10,41 @@ class Lotto {
   }
 
   static #validate(numbers) {
-    if (numbers.length !== 6) {
-      throw new Error('[ERROR] 로또 번호는 6개여야 합니다.');
+    if (numbers.length !== LOTTO_CONFIG.NUMBERS_COUNT) {
+      throw new Error(ERROR_MESSAGES.LOTTO.INVALID_LENGTH);
     }
     if (new Set(numbers).size !== numbers.length) {
-      throw new Error('[ERROR] 로또 번호에 중복된 숫자가 있습니다.');
+      throw new Error(ERROR_MESSAGES.LOTTO.DUPLICATE_NUMBERS);
     }
-    if (numbers.some((number) => number < 1 || number > 45)) {
-      throw new Error('[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.');
+    if (
+      numbers.some((number) => number < LOTTO_CONFIG.MIN_NUMBER || number > LOTTO_CONFIG.MAX_NUMBER)
+    ) {
+      throw new Error(ERROR_MESSAGES.LOTTO.INVALID_RANGE);
     }
   }
 
   getRank(winningNumbers, bonusNumber) {
     const matchCount = this.#numbers.filter((number) => winningNumbers.includes(number)).length;
-    switch (matchCount) {
-      case 6:
-        return 1;
-      case 5:
-        return this.#getRankTwoOrThree(bonusNumber);
-      case 4:
-        return 4;
-      case 3:
-        return 5;
-      default:
-        return 6;
+    if (matchCount === MATCH_COUNT.SIX) {
+      return RANK.FIRST;
     }
+    if (matchCount === MATCH_COUNT.FIVE) {
+      return this.#getRankTwoOrThree(bonusNumber);
+    }
+    if (matchCount === MATCH_COUNT.FOUR) {
+      return RANK.FOURTH;
+    }
+    if (matchCount === MATCH_COUNT.THREE) {
+      return RANK.FIFTH;
+    }
+    return RANK.NONE;
   }
 
   #getRankTwoOrThree(bonusNumber) {
     if (this.#numbers.includes(bonusNumber)) {
-      return 2;
+      return RANK.SECOND;
     }
-    return 3;
+    return RANK.THIRD;
   }
 
   getNumbers() {

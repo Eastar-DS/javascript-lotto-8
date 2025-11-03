@@ -1,28 +1,30 @@
 import { Console } from '@woowacourse/mission-utils';
+import { MESSAGES } from '../constants/messages';
+import { RANK } from '../constants/lottoConfig';
 
 class OutputView {
   static printPurchaseCount(count) {
-    Console.print(`${count}개를 구매했습니다.`);
+    Console.print(MESSAGES.OUTPUT.PURCHASE_COUNT(count));
   }
 
   static printLottos(lottos) {
     lottos.forEach((lotto) => {
-      Console.print(`[${lotto.getNumbers().join(', ')}]`);
+      Console.print(MESSAGES.OUTPUT.LOTTO_NUMBERS(lotto.getNumbers()));
     });
   }
 
   static printWinningStatistics(winningCountObject) {
-    Console.print('당첨 통계');
-    Console.print('---');
-    Console.print(`3개 일치 (5,000원) - ${winningCountObject[5]}개`);
-    Console.print(`4개 일치 (50,000원) - ${winningCountObject[4]}개`);
-    Console.print(`5개 일치 (1,500,000원) - ${winningCountObject[3]}개`);
-    Console.print(`5개 일치, 보너스 볼 일치 (30,000,000원) - ${winningCountObject[2]}개`);
-    Console.print(`6개 일치 (2,000,000,000원) - ${winningCountObject[1]}개`);
+    Console.print(MESSAGES.OUTPUT.STATISTICS_TITLE);
+    Console.print(MESSAGES.OUTPUT.STATISTICS_DIVIDER);
+    Console.print(MESSAGES.OUTPUT.WINNING_RESULT_FIFTH(winningCountObject[RANK.FIFTH]));
+    Console.print(MESSAGES.OUTPUT.WINNING_RESULT_FOURTH(winningCountObject[RANK.FOURTH]));
+    Console.print(MESSAGES.OUTPUT.WINNING_RESULT_THIRD(winningCountObject[RANK.THIRD]));
+    Console.print(MESSAGES.OUTPUT.WINNING_RESULT_SECOND(winningCountObject[RANK.SECOND]));
+    Console.print(MESSAGES.OUTPUT.WINNING_RESULT_FIRST(winningCountObject[RANK.FIRST]));
   }
 
   static printProfitRatio(profitRatio) {
-    Console.print(`총 수익률은 ${profitRatio}%입니다.`);
+    Console.print(MESSAGES.OUTPUT.PROFIT_RATIO(profitRatio));
   }
 }
 

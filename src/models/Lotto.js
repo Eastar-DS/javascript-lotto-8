@@ -23,12 +23,8 @@ class Lotto {
     switch (matchCount) {
       case 6:
         return 1;
-      case 5: {
-        if (this.#numbers.includes(bonusNumber)) {
-          return 2;
-        }
-        return 3;
-      }
+      case 5:
+        return this.#getRankTwoOrThree(bonusNumber);
       case 4:
         return 4;
       case 3:
@@ -36,6 +32,13 @@ class Lotto {
       default:
         return 6;
     }
+  }
+
+  #getRankTwoOrThree(bonusNumber) {
+    if (this.#numbers.includes(bonusNumber)) {
+      return 2;
+    }
+    return 3;
   }
 
   getNumbers() {

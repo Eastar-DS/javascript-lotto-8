@@ -1,4 +1,6 @@
 import Lotto from './Lotto';
+import { ERROR_MESSAGES } from '../constants/errorMessages';
+import { LOTTO_CONFIG, PRIZE_MONEY, RANK } from '../constants/lottoConfig';
 
 class LottoGame {
   #lottos;
@@ -21,39 +23,39 @@ class LottoGame {
 
   static #validateLottos(lottosArray) {
     if (!lottosArray.every((lotto) => lotto instanceof Lotto)) {
-      throw new Error('[ERROR] lottos의 모든 원소는 Lotto 모델의 인스턴스여야 합니다.');
+      throw new Error(ERROR_MESSAGES.GAME.INVALID_LOTTOS_TYPE);
     }
   }
 
   static #validateWinningLotto(winningLotto) {
     if (!(winningLotto instanceof Lotto)) {
-      throw new Error('[ERROR] winningLotto는 Lotto 모델의 인스턴스여야 합니다.');
+      throw new Error(ERROR_MESSAGES.GAME.INVALID_WINNING_LOTTO_TYPE);
     }
   }
 
   static #validateBonusNumber(bonusNumber) {
     if (!Number.isInteger(bonusNumber)) {
-      throw new Error('[ERROR] bonusNumber는 정수여야 합니다.');
+      throw new Error(ERROR_MESSAGES.GAME.INVALID_BONUS_NUMBER_TYPE);
     }
-    if (bonusNumber < 1 || bonusNumber > 45) {
-      throw new Error('[ERROR] bonusNumber는 1~45 사이의 숫자여야 합니다.');
+    if (bonusNumber < LOTTO_CONFIG.MIN_NUMBER || bonusNumber > LOTTO_CONFIG.MAX_NUMBER) {
+      throw new Error(ERROR_MESSAGES.GAME.INVALID_BONUS_NUMBER_RANGE);
     }
   }
 
   static #validateBonusNumberInWinningLotto(winningLotto, bonusNumber) {
     if (winningLotto.getNumbers().some((number) => number === bonusNumber)) {
-      throw new Error('[ERROR] bonusNumber는 당첨번호와 중복될 수 없습니다.');
+      throw new Error(ERROR_MESSAGES.GAME.DUPLICATE_BONUS_NUMBER);
     }
   }
 
   getWinningCountObject() {
     const winningCountObject = {
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
-      6: 0,
+      [RANK.FIRST]: 0,
+      [RANK.SECOND]: 0,
+      [RANK.THIRD]: 0,
+      [RANK.FOURTH]: 0,
+      [RANK.FIFTH]: 0,
+      [RANK.NONE]: 0,
     };
     const winningNumbers = this.#winningLotto.getNumbers();
     this.#lottos.forEach((lotto) => {
@@ -64,14 +66,14 @@ class LottoGame {
   }
 
   getProfitRatio() {
-    const initialCost = this.#lottos.length * 1000;
+    const initialCost = this.#lottos.length * LOTTO_CONFIG.TICKET_PRICE;
     const winningCountObject = this.getWinningCountObject();
     const winningMoney =
-      2000000000 * winningCountObject[1] +
-      30000000 * winningCountObject[2] +
-      1500000 * winningCountObject[3] +
-      50000 * winningCountObject[4] +
-      5000 * winningCountObject[5];
+      PRIZE_MONEY.FIRST * winningCountObject[RANK.FIRST] +
+      PRIZE_MONEY.SECOND * winningCountObject[RANK.SECOND] +
+      PRIZE_MONEY.THIRD * winningCountObject[RANK.THIRD] +
+      PRIZE_MONEY.FOURTH * winningCountObject[RANK.FOURTH] +
+      PRIZE_MONEY.FIFTH * winningCountObject[RANK.FIFTH];
     const profitRatio = (winningMoney / initialCost) * 100;
     return profitRatio.toFixed(1);
   }

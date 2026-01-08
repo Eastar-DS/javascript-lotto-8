@@ -148,16 +148,16 @@ __tests__/
 
 ### 6단계: 당첨 로또 구현 (WinningLotto)
 
-- [ ] 테스트: 당첨 번호와 보너스 번호로 WinningLotto 생성
-- [ ] 테스트: 보너스 번호가 당첨 번호와 중복될 경우 Error 발생
-- [ ] 테스트: 특정 로또의 등수 판별
+- [x] 테스트: 당첨 번호와 보너스 번호로 WinningLotto 생성
+- [x] 테스트: 보너스 번호가 당첨 번호와 중복될 경우 Error 발생
+- [x] 테스트: 특정 로또의 등수 판별
   - 6개 일치 → FIRST
   - 5개 일치 + 보너스 → SECOND
   - 5개 일치 → THIRD
   - 4개 일치 → FOURTH
   - 3개 일치 → FIFTH
   - 2개 이하 → null
-- [ ] 구현: WinningLotto 클래스
+- [x] 구현: WinningLotto 클래스
   - constructor(winningNumbers, bonusNumber): 당첨 번호와 보너스 번호 저장
   - judgeRank(lotto): 주어진 로또의 등수 판별
     - lotto.countMatches()로 일치 개수 확인
